@@ -1,0 +1,12 @@
+All expressions must be wrapped in brackets so instead of
+cosh(1 + 2, 1)
+is must be,
+cosh((1 + 2), 1)
+All self functions must be wrapped in brackets
+so instead of
+cosh(1!, 1);
+it must be,
+cosh((1!), 1);
+If an expression is on its own aka "1 + 2" it must not be
+surrounded by brackets
+Can only take absolute values of true values aka 1, 2, 3 not cos(1)

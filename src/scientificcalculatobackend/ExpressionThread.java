@@ -7,11 +7,11 @@ import scientificcalculatobackend.SelfFunctions.SelfFunctionOperations;
 
 public class ExpressionThread
 {
-    private Brackets _bracketIndexModel = Container.GetBrackets();
-    private FunctionOperations _functionOperations = Container.GetFunctionOperations();
-    private SelfFunctionOperations _selfFunctionOperations = Container.GetSelfFunctionOperations();
-    private Replace _replace = Container.GetReplace();
-    private Expression _expression = Container.GetExpression();
+    private final Brackets _bracketIndexModel = Container.GetBrackets();
+    private final FunctionOperations _functionOperations = Container.GetFunctionOperations();
+    private final SelfFunctionOperations _selfFunctionOperations = Container.GetSelfFunctionOperations();
+    private final Replace _replace = Container.GetReplace();
+    private final Expression _expression = Container.GetExpression();
 
     public double Run(String expressionParameter) throws Exception
     {
@@ -31,7 +31,6 @@ public class ExpressionThread
                 String value = _selfFunctionOperations.PerformSelfFunctionOperations(expression, BracketModel);
                 expression = _replace.ReplaceSubExpressionWithValue(expression, value, BracketModel, false);
                 BracketModel = _bracketIndexModel.FindNextBracketIndexes(expression);
-                continue;
             }
             //This means the brackets are from a regular expression
             else if(_expression.IsSubExpressionExpression(expression, BracketModel))
@@ -39,7 +38,6 @@ public class ExpressionThread
                 String value = _expression.PerformExpression(expression, BracketModel);
                 expression = _replace.ReplaceSubExpressionWithValue(expression, value, BracketModel, false);
                 BracketModel = _bracketIndexModel.FindNextBracketIndexes(expression);
-                continue;
             }
             //Is the brackets from a function
             else if(_functionOperations.DoesBracketBelongToAFunction(expression, BracketModel))
@@ -47,16 +45,15 @@ public class ExpressionThread
                 String value = _functionOperations.PerformFunctionOperations(expression, BracketModel);
                 expression = _replace.ReplaceFunctionWithValue(expression, value, BracketModel);
                 BracketModel = _bracketIndexModel.FindNextBracketIndexes(expression);
-                continue;
             }
         }
 
         //Check if there's still an expression left
         if(_expression.IsSubExpressionExpression(expression))
         {
-            String value = _expression.PerformExpression(expression);
-            expression = value;
+            expression = _expression.PerformExpression(expression);
         }
+
 
         return Double.parseDouble(expression);
     }
